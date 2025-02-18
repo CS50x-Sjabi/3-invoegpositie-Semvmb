@@ -2,8 +2,24 @@
 #include <stdlib.h>
 
 int searchInsert(int* nums, int numsSize, int target) {
-   //Vul hier jouw code in
+    int left = 0;
+    int right = numsSize - 1;
 
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            return mid;  // gevonden in mid
+        }
+        else if (nums[mid] < target) {
+            left = mid + 1;  // doel is groter, zoek rechterkant
+        }
+        else {
+            right = mid - 1; // doel is kleiner, zoek linkerkant
+        }
+    }
+
+    return left;  // Retourneer de index waar het doel moet worden ingevoegd
 }
 
 // Testfunctie
@@ -33,11 +49,11 @@ void runTests() {
         struct TestCase test = testCases[i];
         int result = searchInsert(test.nums, test.size, test.target);
         if (result == test.expected) {
-            printf("✅ Test %d geslaagd: target = %d, verwacht = %d, output = %d\n", 
+            printf("✅ Test %d geslaagd: target = %d, verwacht = %d, output = %d\n",
                    i + 1, test.target, test.expected, result);
             passed++;
         } else {
-            printf("❌ Test %d mislukt: target = %d, verwacht = %d, output = %d\n", 
+            printf("❌ Test %d mislukt: target = %d, verwacht = %d, output = %d\n",
                    i + 1, test.target, test.expected, result);
         }
     }
